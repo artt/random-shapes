@@ -1,0 +1,11 @@
+{
+  "name": "random-shapes",
+  "version": "0.1.0",
+  "description": "Generate random shapes!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "artt",
+  "license": "MIT"
+}
