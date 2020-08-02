@@ -87,3 +87,7 @@ export function RandomBlob({ size, options, className }) {
 	)
 
 }
+
+export function test() {
+	return 'hi there!'
+}
