@@ -23,13 +23,6 @@ function movePoint(pt, rho, r, { xMin, xMax, yMin, yMax }={}) {
 									 truncate(pt.y + r * Math.sin(rho), yMin, yMax))
 }
 
-function getPointAttribute(pt, pattern) {
-	let tmp = {}
-	tmp[pattern.replace("?", "x")] = pt.x.toFixed(2)
-	tmp[pattern.replace("?", "y")] = pt.y.toFixed(2)
-	return tmp
-}
-
 function compareArrays(a, b) {
 	if (a.length !== b.length) return false;
 	for (let i = 0; i < a.length; i ++) {
@@ -194,7 +187,7 @@ function genCurve(width, height, opt, override, initX) {
 
 }
 
-export function genHLine({ width, height, options, override, className }) {
+export function genHLines(width, height, options, override) {
 
 	// Override is an array of objects.
 	// If the entry at position i is null, undefined, or "auto", then default is applied.
@@ -213,12 +206,6 @@ export function genHLine({ width, height, options, override, className }) {
 		posWindowSize: 0.2*height,
 		angleWindowSize: Math.PI/3,
 		numControls: 2,
-		styleMid: {fill: "transparent", stroke: "black"},
-		styleTop: "none",
-		styleBottom: "none",
-		classNameTop: "",
-		classNameBottom: "",
-		classNameMid: "",
 		debug: false,
 		...options
 	}
@@ -268,13 +255,6 @@ export function genHLine({ width, height, options, override, className }) {
 
 	if (opt.debug){
 		console.log("initX at the end", initX)
-		console.log(typeof(opt.styleMid))
-	}
-	if (opt.styleTop !== "none" && !Array.isArray(opt.styleTop)) opt.styleTop = [opt.styleTop]
-	if (opt.styleBottom !== "none" && !Array.isArray(opt.styleBottom)) opt.styleBottom = [opt.styleBottom]
-	if (opt.styleMid !== "none" && !Array.isArray(opt.styleMid)) opt.styleMid = [opt.styleMid]
-	if (opt.debug){
-		console.log(opt.styleMid[0 % opt.styleMid.length])
 	}
 	
 	const r = getRange(opt.numLines).map(i => {
@@ -285,15 +265,13 @@ export function genHLine({ width, height, options, override, className }) {
 
 }
 
-export function genBlob({ size, options, className }) {
+export function genBlob(size, options) {
 	
 	const opt = {
 		numControls: 3,
 		posWindowSize: 0.1*size,
 		angleWindowSize: Math.PI/3,
 		handleWindowSize: 0.5,
-		style: {fill: "grey"},
-		className: "",
 		debug: false,
 		...options
 	}
@@ -302,7 +280,6 @@ export function genBlob({ size, options, className }) {
 	const distance = 2*Math.PI*initRadius / opt.numControls / 2.5
 
 	const tmp = Math.random() * 2 * Math.PI;
-	// console.log(tmp + 2)
 
 	const initAngle = getRange(opt.numControls).map(x => tmp + x/opt.numControls*2*Math.PI)
 	const center = new Point(size/2, size/2)
@@ -318,7 +295,7 @@ export function genBlob({ size, options, className }) {
 		data[i].ctrl_alt = movePoint(data[i].point, data[i].angle, rnd(distance*(1-opt.handleWindowSize), distance*(1+opt.handleWindowSize)))
 	}
 
-	let path = "M" + data[0].point + " "
+	let path = "M " + data[0].point + " "
 		+ "C " + data[0].ctrl_alt + ", " + data[1].ctrl + ", " + data[1].point + " "
 	for (let i = 2; i < opt.numControls; i ++) {
 		path += "S " + data[i].ctrl + ", " + data[i].point + " "
