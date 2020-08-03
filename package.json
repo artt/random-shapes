@@ -2,15 +2,26 @@
   "name": "random-shapes",
   "version": "0.1.4",
   "description": "Generate random shapes!",
+  "author": "artt",
+  "license": "MIT",
+  "repository": "artt/random-shapes",
+  "keywords": [
+    "react",
+    "svg",
+    "random",
+    "wave",
+    "blob",
+    "react-random-shapes"
+  ],
   "main": "build/main.js",
   "source": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "backpack"
   },
-  "author": "artt",
-  "license": "MIT",
-  "repository": "artt/random-shapes",
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "backpack-core": "^0.8.4"
   }
