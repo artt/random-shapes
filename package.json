@@ -2,20 +2,16 @@
   "name": "random-shapes",
   "version": "0.1.0",
   "description": "Generate random shapes!",
-  "main": "dist/index.js",
+  "main": "build/main.js",
+  "source": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src -d dist",
-    "start": "npm run build && node .",
-    "restart": "rimraf dist && npm run start",
-    "dev": "nodemon --exec npm run restart"
+    "dev": "backpack"
   },
   "author": "artt",
   "license": "MIT",
   "repository": "artt/random-shapes",
   "devDependencies": {
-    "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.11.0",
-    "@babel/preset-env": "^7.11.0"
+    "backpack-core": "^0.8.4"
   }
 }
