@@ -178,12 +178,12 @@ function genCurve(width, height, opt, override, initX) {
 	if (opt.debug)
 		console.log("data with controls", data)
 
-	let midCurve = "C " + data[0].ctrl_alt + ", " + data[1].ctrl + ", " + data[1].point + " "
+	let curve = "M 0 " + data[0].point.y.toFixed(2) + " C " + data[0].ctrl_alt + ", " + data[1].ctrl + ", " + data[1].point + " "
 	for (let i = 2; i < opt.numControls; i ++) {
-		midCurve += "S " + data[i].ctrl + ", " + data[i].point + " "
+		curve += "S " + data[i].ctrl + ", " + data[i].point + " "
 	}
 
-	return {data: data, curve: midCurve}
+	return {data: data, curve: curve}
 
 }
 
@@ -200,7 +200,6 @@ export function genHLines(width, height, options, override) {
 	// 	- ["r", l_bound, u_bound]: specify the minimum and maximum values
 	
 	const opt = {
-		numLines: 1,
 		leftPos: 0.5*height,
 		rightPos: 0.5*height,
 		posWindowSize: 0.2*height,
