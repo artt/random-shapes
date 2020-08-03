@@ -261,7 +261,6 @@ export function genHLines(width, height, options, override) {
 		return genCurve(width, height, opt, tmp_override, initX)
 	})
 	return(r)
-
 }
 
 export function genBlob(size, options) {
