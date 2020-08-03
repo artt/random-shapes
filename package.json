@@ -1,6 +1,6 @@
 {
   "name": "random-shapes",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Generate random shapes!",
   "main": "build/main.js",
   "source": "src/index.js",
