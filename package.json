@@ -13,13 +13,17 @@
     "blob",
     "react-random-shapes"
   ],
-  "main": "build/main.js",
+  "main": "lib/index.js",
   "source": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "backpack"
+    "dev": "babel src --out-dir lib --watch",
+    "build": "babel rc --out-dir lib"
   },
   "devDependencies": {
-    "backpack-core": "^0.8.4"
-  }
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.0",
+    "@babel/preset-env": "^7.11.0"
+  },
+  "dependencies": {}
 }

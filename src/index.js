@@ -303,3 +303,7 @@ export function genBlob(size, options) {
 	return({path: path, data: data})
 
 }
+
+export const test = () => {
+	return "abcdef"
+}
