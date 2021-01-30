@@ -18,12 +18,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "babel src --out-dir lib --watch",
-    "build": "babel rc --out-dir lib"
+    "build": "babel src --out-dir lib"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.0",
     "@babel/preset-env": "^7.11.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "seedrandom": "^3.0.5"
+  }
 }

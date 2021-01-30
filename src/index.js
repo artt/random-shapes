@@ -1,3 +1,6 @@
+const seedrandom = require('seedrandom');
+let randGen = seedrandom();
+
 class Point {
 	constructor(x, y) {
 		this.x = x
@@ -9,7 +12,7 @@ class Point {
 }
 
 function rnd(boundMin, boundMax) {
-	return boundMin + (Math.random() * (boundMax - boundMin))
+	return boundMin + (randGen() * (boundMax - boundMin))
 }
 
 function truncate(pos, posMin, posMax) {
@@ -205,8 +208,20 @@ export function genHLines(width, height, options, override) {
 		posWindowSize: 0.2*height,
 		angleWindowSize: Math.PI/3,
 		numControls: 2,
+		seed: '',
 		debug: false,
 		...options
+	}
+
+	if (opt.seed !== '') {
+		randGen = seedrandom(opt.seed)
+		if (opt.debug)
+			console.log('seeded with string: ', opt.seed)
+	}
+	else {
+		randGen = seedrandom()
+		if (opt.debug)
+			console.log('no seed')
 	}
 
 	if (opt.debug)
@@ -270,14 +285,26 @@ export function genBlob(size, options) {
 		posWindowSize: 0.1*size,
 		angleWindowSize: Math.PI/3,
 		handleWindowSize: 0.5,
+		seed: '',
 		debug: false,
 		...options
+	}
+
+	if (opt.seed !== '') {
+		randGen = seedrandom(opt.seed)
+		if (opt.debug)
+			console.log('seeded with string: ', opt.seed)
+	}
+	else {
+		randGen = seedrandom()
+		if (opt.debug)
+			console.log('no seed')
 	}
 
 	const initRadius = size/2 - 2*opt.posWindowSize
 	const distance = 2*Math.PI*initRadius / opt.numControls / 2.5
 
-	const tmp = Math.random() * 2 * Math.PI;
+	const tmp = randGen() * 2 * Math.PI;
 
 	const initAngle = getRange(opt.numControls).map(x => tmp + x/opt.numControls*2*Math.PI)
 	const center = new Point(size/2, size/2)
@@ -286,8 +313,8 @@ export function genBlob(size, options) {
 		for (let i = 0; i < opt.numControls; i ++) {
 		data[i] = {point: movePoint(
 												movePoint(center, initAngle[i], initRadius),
-												Math.random() * Math.PI*2,
-												Math.random() * opt.posWindowSize)}
+												randGen() * Math.PI*2,
+												randGen() * opt.posWindowSize)}
 		data[i].angle = rnd(initAngle[i] + Math.PI/2 - opt.angleWindowSize/2, initAngle[i] + Math.PI/2 + opt.angleWindowSize/2)
 		data[i].ctrl = movePoint(data[i].point, data[i].angle, -1*rnd(distance*(1-opt.handleWindowSize), distance*(1+opt.handleWindowSize)))
 		data[i].ctrl_alt = movePoint(data[i].point, data[i].angle, rnd(distance*(1-opt.handleWindowSize), distance*(1+opt.handleWindowSize)))
