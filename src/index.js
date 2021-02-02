@@ -278,7 +278,7 @@ export function genHLines(width, height, options, override) {
 	return(r)
 }
 
-function genBlob(rand, size, initRadius, distance, opt) {
+function genOneBlob(rand, size, initRadius, distance, opt) {
 	const tmp = rand() * 2 * Math.PI;
 
 	const initAngle = getRange(opt.numControls).map(x => tmp + x/opt.numControls*2*Math.PI)
@@ -303,6 +303,10 @@ function genBlob(rand, size, initRadius, distance, opt) {
 	path += "S " + data[0].ctrl + ", " + data[0].point
 
 	return({path: path, data: data})
+}
+
+export function genBlob(size, options) {
+	genHBlobs(size, options)
 }
 
 export function genHBlobs(size, options) {
@@ -333,7 +337,7 @@ export function genHBlobs(size, options) {
 		const initRadius = size/2 - 2*opt.posWindowSize
 		const distance = 2*Math.PI*initRadius / opt.numControls / 2.5
 
-		return genBlob(randGen, size, initRadius, distance, opt)
+		return genOneBlob(randGen, size, initRadius, distance, opt)
 	})
 	return(r)
 }
