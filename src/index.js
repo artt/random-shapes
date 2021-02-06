@@ -306,7 +306,7 @@ function genOneBlob(rand, size, initRadius, distance, opt) {
 }
 
 export function genBlob(size, options) {
-	genHBlobs(size, options)
+	return genHBlobs(size, options)[0]
 }
 
 export function genHBlobs(size, options) {
