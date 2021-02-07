@@ -278,9 +278,41 @@ export function genHLines(width, height, options, override) {
 	return(r)
 }
 
+function genOneBlob(rand, size, initRadius, distance, opt) {
+	const tmp = rand() * 2 * Math.PI;
+
+	const initAngle = getRange(opt.numControls).map(x => tmp + x/opt.numControls*2*Math.PI)
+	const center = new Point(size/2, size/2)
+
+	let data = Array(opt.numControls)
+		for (let i = 0; i < opt.numControls; i ++) {
+		data[i] = {point: movePoint(
+												movePoint(center, initAngle[i], initRadius),
+												rand() * Math.PI*2,
+												rand() * opt.posWindowSize)}
+		data[i].angle = rnd(initAngle[i] + Math.PI/2 - opt.angleWindowSize/2, initAngle[i] + Math.PI/2 + opt.angleWindowSize/2)
+		data[i].ctrl = movePoint(data[i].point, data[i].angle, -1*rnd(distance*(1-opt.handleWindowSize), distance*(1+opt.handleWindowSize)))
+		data[i].ctrl_alt = movePoint(data[i].point, data[i].angle, rnd(distance*(1-opt.handleWindowSize), distance*(1+opt.handleWindowSize)))
+	}
+
+	let path = "M " + data[0].point + " "
+		+ "C " + data[0].ctrl_alt + ", " + data[1].ctrl + ", " + data[1].point + " "
+	for (let i = 2; i < opt.numControls; i ++) {
+		path += "S " + data[i].ctrl + ", " + data[i].point + " "
+	}
+	path += "S " + data[0].ctrl + ", " + data[0].point
+
+	return({path: path, data: data})
+}
+
 export function genBlob(size, options) {
+	return genHBlobs(size, options)[0]
+}
+
+export function genHBlobs(size, options) {
 	
 	const opt = {
+		numBlobs: 1,
 		numControls: 3,
 		posWindowSize: 0.1*size,
 		angleWindowSize: Math.PI/3,
@@ -301,34 +333,13 @@ export function genBlob(size, options) {
 			console.log('no seed')
 	}
 
-	const initRadius = size/2 - 2*opt.posWindowSize
-	const distance = 2*Math.PI*initRadius / opt.numControls / 2.5
+	const r = getRange(opt.numBlobs).map(i => {
+		const initRadius = size/2 - 2*opt.posWindowSize
+		const distance = 2*Math.PI*initRadius / opt.numControls / 2.5
 
-	const tmp = randGen() * 2 * Math.PI;
-
-	const initAngle = getRange(opt.numControls).map(x => tmp + x/opt.numControls*2*Math.PI)
-	const center = new Point(size/2, size/2)
-
-	let data = Array(opt.numControls)
-		for (let i = 0; i < opt.numControls; i ++) {
-		data[i] = {point: movePoint(
-												movePoint(center, initAngle[i], initRadius),
-												randGen() * Math.PI*2,
-												randGen() * opt.posWindowSize)}
-		data[i].angle = rnd(initAngle[i] + Math.PI/2 - opt.angleWindowSize/2, initAngle[i] + Math.PI/2 + opt.angleWindowSize/2)
-		data[i].ctrl = movePoint(data[i].point, data[i].angle, -1*rnd(distance*(1-opt.handleWindowSize), distance*(1+opt.handleWindowSize)))
-		data[i].ctrl_alt = movePoint(data[i].point, data[i].angle, rnd(distance*(1-opt.handleWindowSize), distance*(1+opt.handleWindowSize)))
-	}
-
-	let path = "M " + data[0].point + " "
-		+ "C " + data[0].ctrl_alt + ", " + data[1].ctrl + ", " + data[1].point + " "
-	for (let i = 2; i < opt.numControls; i ++) {
-		path += "S " + data[i].ctrl + ", " + data[i].point + " "
-	}
-	path += "S " + data[0].ctrl + ", " + data[0].point
-
-	return({path: path, data: data})
-
+		return genOneBlob(randGen, size, initRadius, distance, opt)
+	})
+	return(r)
 }
 
 export const test = () => {
